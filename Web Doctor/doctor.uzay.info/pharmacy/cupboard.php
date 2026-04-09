@@ -77,12 +77,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="face bottom">Gaviscon</div>
             </div>
             <div class="box" draggable="true" data-box="4">
-                <div class="face front">Zyrtec</div>
-                <div class="face back">Zyrtec</div>
-                <div class="face left">Zyrtec</div>
-                <div class="face right">Zyrtec</div>
-                <div class="face top">Zyrtec</div>
-                <div class="face bottom">Zyrtec</div>
+                <div class="face front">Cetirizine</div>
+                <div class="face back">Cetirizine</div>
+                <div class="face left">Cetirizine</div>
+                <div class="face right">Cetirizine</div>
+                <div class="face top">Cetirizine</div>
+                <div class="face bottom">Cetirizine</div>
             </div>
         </div>
     </div>
