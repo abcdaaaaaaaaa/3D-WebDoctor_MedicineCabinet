@@ -410,18 +410,18 @@ function calculateDose() {
         }
 
     } else if (mainOptionSelected === 4) {
-        medicineName = "Zyrtec mg";
+        medicineName = "Cetirizine mg";
         doseFrequency = 1;
         
         if (age < 2) {
             doseAmount = "NotRecommended";
             doseFrequency = "NotRecommended";
-            doseResult.innerHTML += "Yaşınız 2 yaştan küçük. Zyrtec için uzmanınıza danışınız.";
+            doseResult.innerHTML += "Yaşınız 2 yaştan küçük. Cetirizine için uzmanınıza danışınız.";
         } else {  
             if (age >= 2 && age < 6) { doseAmount = 2.5 + (age - 2) * 0.625; }
             else if (age >= 6 && age < 12) { doseAmount = 5 + (age - 6) * 0.833; }
             else { doseAmount = 10; }
-            doseResult.innerHTML += "Günlük Zyrtec Dozu: " + formatNumber(doseAmount) + " mg, Günde 1 kez alınmalıdır.";
+            doseResult.innerHTML += "Günlük Cetirizine Dozu: " + formatNumber(doseAmount) + " mg, Günde 1 kez alınmalıdır.";
         }
 }
 
