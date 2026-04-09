@@ -65,12 +65,12 @@ function sentences2() {
 
 // 60 Sentences
 function sentences3() {
-  return "Zyrtec " + selectWord("w1") + " " + selectWord("w6") + " " + selectWord("w7");
+  return "Cetirizine " + selectWord("w1") + " " + selectWord("w6") + " " + selectWord("w7");
 }
 
 // 320 Sentences
 function sentences4() {
-  return "Zyrtec " + selectWord("w8") + " " + selectWord("w9") + " " + selectWord("w2") + " 5 günden daha " + selectWord("w5") + " " + selectWord("w4") + " " + selectWord("w3");
+  return "Cetirizine " + selectWord("w8") + " " + selectWord("w9") + " " + selectWord("w2") + " 5 günden daha " + selectWord("w5") + " " + selectWord("w4") + " " + selectWord("w3");
 }
 
 // 80 Sentences
