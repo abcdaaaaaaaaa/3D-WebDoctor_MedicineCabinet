@@ -75,8 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     Paracetemol'e karşı özel bir rahatsızlığım var.</label><br>
                 <label><input type="checkbox" id="gaviscon" name="condition[]" value="Gaviscon'a karşı özel bir rahatsızlığı var.">
                     Gaviscon'a karşı özel bir rahatsızlığım var.</label><br>
-                <label><input type="checkbox" id="zyrtec" name="condition[]" value="Zyrtec'e karşı özel bir rahatsızlığı var.">
-                    Zyrtec'e karşı özel bir rahatsızlığım var.</label><br>
+                <label><input type="checkbox" id="cetirizine" name="condition[]" value="Cetirizine'e karşı özel bir rahatsızlığı var.">
+                    Cetirizine'e karşı özel bir rahatsızlığım var.</label><br>
                 <label><input type="checkbox" id="allergic" name="condition[]" value="Bazı ilaçlara karşı aşırı alerijik reaksiyon göstermektedir.">
                     Bazı ilaçlara karşı aşırı alerijik reaksiyon gösteriyorum.</label><br>
             </div>
