@@ -104,10 +104,10 @@ function selectSubOption(mainOption, subOption, optionText) {
             updateOptionsForPain();
             return;
         case 2:
-            if (subOption === 1 || subOption === 4) {
+            if (subOption === 1 || subOption === 2) {
                 guidance = window.sentences_1;
 				StomachIntensity = 1;
-            } else if (subOption === 2 || subOption === 3) {
+            } else if (subOption === 3 || subOption === 4) {
                 guidance = window.sentences_2;
 				StomachIntensity = 2;
             } else if (subOption === 5) {
@@ -134,8 +134,6 @@ function selectSubOption(mainOption, subOption, optionText) {
     selectedOptionText.style.opacity = 1;
 }
 
-let sumbit = 0;
-
 function nexttemp() { 
     askNextQuestion(6);
     updateOptionsForTemp();     
@@ -159,7 +157,7 @@ function updateOptions(optionNumber) {
             newOptions = ["Baş Ağrısı", "Diş Ağrısı", "Karın Ağrısı", "Kas Ağrısı"];
             break;
         case 2:
-            newOptions = ["Hazımsızlık", "Kusma", "İshal", "Mide Ağrısı", "Hafif Bir Rahatsızlık"];
+            newOptions = ["Hazımsızlık", "Reflü / Mide Yanması", "Mide Ağrısı", "Mide Bulantısı / Kusma", "Hafif Bir Rahatsızlık"];
             break;
         case 3:
             document.getElementById('inputContainerWrapper').style.display = 'flex';
@@ -331,10 +329,10 @@ function calculateDose() {
             else if (PainIntensity === 3 || PainIntensity === 4) {doseFrequency = 4;}
             doseResult.innerHTML += "Günlük Ibuprofen Dozu: " + formatNumber(doseAmount) + " mg, Günde " + doseFrequency + " kez alınmalıdır.";
         } else {
-            if (PainIntensity === 1) {doseFrequency = 4; doseAmount = 200;}
-            else if (PainIntensity === 2) {doseFrequency = 6; doseAmount = 200;}
+            if (PainIntensity === 1) {doseFrequency = 2; doseAmount = 400;}
+            else if (PainIntensity === 2) {doseFrequency = 3; doseAmount = 400;}
             else if (PainIntensity === 3) {doseFrequency = 4; doseAmount = 400;}
-            else if (PainIntensity === 4) {doseFrequency = 6; doseAmount = 400;}
+            else if (PainIntensity === 4) {doseFrequency = 4; doseAmount = 600;}
             doseResult.innerHTML += "Günlük Ibuprofen Dozu: " + formatNumber(doseAmount) + " mg, Günde " + doseFrequency + " kez alınmalıdır.";
         }
     } else if (mainOptionSelected === 2) {
