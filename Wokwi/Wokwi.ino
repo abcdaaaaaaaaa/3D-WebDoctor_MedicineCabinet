@@ -1,33 +1,40 @@
-// https://wokwi.com/projects/438282694716998657
+// https://wokwi.com/projects/466087474037114881
 
 #include <WiFi.h>
 #include <HTTPClient.h>
-#include <LiquidCrystal_I2C.h>
 #include <ESP32Servo.h>
+#include <SPI.h>
+#include <MFRC522.h>
 
 const char* ssid = "Wokwi-GUEST";
 const char* password = "";
 
 const char* serverUrl = "https://doctor.uzay.info/sendesp32.php";
-const char* confirmationCode = "12345678910";
+const char* cupboardCode = "Medikal2026";
 
-int lcdColumns = 16;
-int lcdRows = 2;
-LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
+#define SS_PIN 5
+#define RST_PIN 22
+MFRC522 rfid(SS_PIN, RST_PIN);
 
 Servo servos[4];
-const int servoPins[4] = {32, 33, 34, 35};
+const int servoPins[4] = {32, 33, 25, 26};
 
 String lastData = "";
+bool waitingForPayment = false;
+String pendingIllsId = "";
+int pendingServoNum = -1;
+unsigned long lastCheckTime = 0;
 
 void setup() {
   Serial.begin(115200);
-  lcd.init();
-  lcd.backlight();
+  SPI.begin();
+  rfid.PCD_Init();
+  
   for (int i = 0; i < 4; i++) {
-    servos[i].attach(servoPins[i], 1000, 2000);
+    servos[i].attach(servoPins[i]);
     servos[i].write(90);
   }
+  
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -35,22 +42,58 @@ void setup() {
 }
 
 void loop() {
-  while (true) {
-    if (WiFi.status() == WL_CONNECTED) {
-      HTTPClient http;
-      String url = String(serverUrl) + "?confirmation_code=" + confirmationCode;
-      http.begin(url);
-      int httpCode = http.GET();
-      if (httpCode == HTTP_CODE_OK) {
-        String payload = http.getString();
-        if (payload != lastData) {
-          lastData = payload;
-          parseData(payload);
+  if (!waitingForPayment) {
+    if (millis() - lastCheckTime > 10000 || lastCheckTime == 0) {
+      if (WiFi.status() == WL_CONNECTED) {
+        HTTPClient http;
+        String url = String(serverUrl) + "?cupboard_code=" + cupboardCode;
+        http.begin(url);
+        int httpCode = http.GET();
+        if (httpCode == HTTP_CODE_OK) {
+          String payload = http.getString();
+          if (payload.length() > 5 && payload != lastData) {
+            lastData = payload;
+            parseData(payload);
+          }
         }
+        http.end();
       }
-      http.end();
+      lastCheckTime = millis();
     }
-    delay(60000);
+  } else {
+    if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+      Serial.println("Kredi kartı okundu, işlem yapılıyor...");
+      
+      if (WiFi.status() == WL_CONNECTED) {
+        HTTPClient http;
+        String url = String(serverUrl) + "?cupboard_code=" + cupboardCode + "&action=pay&ills_id=" + pendingIllsId;
+        http.begin(url);
+        int httpCode = http.GET();
+        
+        if (httpCode == HTTP_CODE_OK) {
+          String resp = http.getString();
+          if (resp == "OK") {
+            Serial.println("Ödeme başarılı, ilaç veriliyor...");
+            if (pendingServoNum >= 1 && pendingServoNum <= 4) {
+              servos[pendingServoNum - 1].write(180);
+              delay(1000);
+              servos[pendingServoNum - 1].write(90);
+              delay(1000);
+            }
+            waitingForPayment = false;
+            lastData = "";
+            lastCheckTime = millis();
+          } else {
+            Serial.println("Ödeme başarısız veya sistem hatası!");
+          }
+        }
+        http.end();
+      }
+      
+      rfid.PICC_HaltA();
+      rfid.PCD_StopCrypto1();
+      delay(2000);
+    }
   }
 }
 
@@ -70,16 +113,16 @@ void parseData(String data) {
 }
 
 void printRecord(String record) {
-  String fields[6];
+  String fields[8];
   int start = 0;
   int end = -1;
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < 8; i++) {
     end = record.indexOf(',', start);
-    if (end == -1 && i < 5) {
+    if (end == -1 && i < 7) {
       fields[i] = record.substring(start);
-      for (int j = i + 1; j < 6; j++) fields[j] = "";
+      for (int j = i + 1; j < 8; j++) fields[j] = "";
       break;
-    } else if (end == -1 && i == 5) {
+    } else if (end == -1 && i == 7) {
       fields[i] = record.substring(start);
     } else {
       fields[i] = record.substring(start, end);
@@ -90,45 +133,22 @@ void printRecord(String record) {
   Serial.println("Kayıt:");
   Serial.print("Ad: "); Serial.println(fields[0]);
   Serial.print("Soyad: "); Serial.println(fields[1]);
-  Serial.print("İlaç: "); Serial.println(fields[2]);
+  Serial.print("Marka: "); Serial.println(fields[2]);
   Serial.print("Doz: "); Serial.println(fields[3]);
   Serial.print("Günlük Miktar: "); Serial.println(fields[4]);
-  Serial.print("Numara: "); Serial.println(fields[5]);
-  Serial.println();
-
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print(fields[0]);
-  lcd.setCursor(0, 1);
-  lcd.print(fields[1]);
-  delay(3000);
-
-  int len = fields[2].length();
-  if (fields[4] == "max6") fields[4] = "6≥";
-
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Medicine Name:");
-  lcd.setCursor(0, 1);
-  lcd.print(fields[2].substring(0, len - 2));
-  delay(5000);
-
-  lcd.clear();
-  lcd.setCursor(0, 0);
-  lcd.print("Dose: " + fields[3] + fields[2].substring(len - 2));
-  lcd.setCursor(13, 0);
-  lcd.print("NO" + fields[5]);
-  lcd.setCursor(0, 1);
-  lcd.print("Daily Amount: " + fields[4]);
-
-  int servoNum = fields[5].toInt();
-  servos[servoNum - 1].write(180);
-  delay(978); // for v5.0
-  servos[servoNum - 1].write(90);
-  delay(5044);
-  servos[servoNum - 1].write(180);
-  delay(978); // for v5.0
-  servos[servoNum - 1].write(90);
   
-  lcd.clear();
+  String urgencyTr = "";
+  if (fields[5] == "1") urgencyTr = "Düşük";
+  else if (fields[5] == "2") urgencyTr = "Orta";
+  else if (fields[5] == "3") urgencyTr = "Yüksek";
+  else if (fields[5] == "4") urgencyTr = "Acil";
+  
+  Serial.print("Aciliyet: "); Serial.println(urgencyTr);
+  Serial.print("NO: "); Serial.println(fields[6]);
+  Serial.print("ID: "); Serial.println(fields[7]);
+  Serial.println("\nLütfen ödeme için kartınızı okutun...");
+  
+  pendingServoNum = fields[6].toInt();
+  pendingIllsId = fields[7];
+  waitingForPayment = true;
 }
