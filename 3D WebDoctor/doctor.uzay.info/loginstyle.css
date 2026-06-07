@@ -1,0 +1,14 @@
+body { font-family: Arial, sans-serif; background-color: #f0f0f0; margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+.form-container { background-color: white; padding: 30px 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); width: 100%; max-width: 450px; margin: 20px auto; box-sizing: border-box; }
+.form-container h2 { margin-top: 0; margin-bottom: 25px; color: #333; text-align: center; }
+.form-container label { display: block; margin-top: 15px; margin-bottom: 5px; color: #444; font-weight: bold; font-size: 14px; }
+.form-container input[type="text"], .form-container input[type="password"], .form-container input[type="date"], .form-container textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; transition: border-color 0.3s; }
+.form-container input:focus, .form-container textarea:focus { outline: none; border-color: #1a73e8; }
+.form-container button { width: 100%; background-color: #4CAF50; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 25px; font-weight: bold; transition: background-color 0.3s; }
+.form-container button:hover { background-color: #45a049; }
+.form-container p { margin-top: 20px; text-align: center; color: #666; font-size: 14px; }
+.form-container a { color: #5cb85c; text-decoration: none; font-weight: bold; transition: color 0.3s; }
+.form-container a:hover { text-decoration: underline; color: #4cae4c; }
+.input-wrapper { position: relative; width: 100%; display: block; }
+.input-wrapper input { padding-right: 40px !important; margin-bottom: 0 !important; }
+.input-wrapper span { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #888; cursor: pointer; display: flex; align-items: center; font-size: 16px; }

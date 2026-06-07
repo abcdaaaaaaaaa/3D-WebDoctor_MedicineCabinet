@@ -1,0 +1,17 @@
+.security-desc { font-size: 12px; color: #666; margin-top: 6px; line-height: 1.4; display: block; }
+.checkbox-group { margin-top: 15px; padding: 15px; background-color: #f9f9f9; border: 1px solid #eee; border-radius: 6px; }
+.checkbox-group label { display: flex; align-items: flex-start; gap: 10px; font-weight: normal; margin-top: 0; margin-bottom: 10px; color: #555; cursor: pointer; }
+.checkbox-group input[type="checkbox"] { margin-top: 3px; cursor: pointer; }
+.top { display: flex; justify-content: space-between; align-items: center; }
+.left2 { display: flex; align-items: center; gap: 10px; cursor: pointer; font-weight: bold; color: #444; }
+.checkbox { width: 24px; height: 24px; border: 2px solid #c1c1c1; border-radius: 4px; display: flex; align-items: center; justify-content: center; background: #fff; transition: .2s; }
+.checkbox.ok { border-color: #1a73e8; background: #fff; }
+.checkbox.ok::after { content: ""; width: 20px; height: 20px; background: no-repeat center/contain url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTQgMTMuNWw1IDVMIDIwIDYuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWE3M2U4IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg=="); }
+.spinner { width: 18px; height: 18px; border: 3px solid #ccc; border-top: 3px solid #1a73e8; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+@keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+canvas { background: #eef2f3; border-radius: 6px; display: block; margin: 0 auto; border: 1px solid #ddd; }
+.seg { height: 4px; flex: 1; background: #ddd; border-radius: 2px; transition: 0.3s; }
+.recaptcha { width: 100%; border: 1px solid #d3d3d3; border-radius: 6px; padding: 15px; background: #fff; margin: 20px 0; box-sizing: border-box; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+.challenge { display: none; margin: 15px auto; text-align: center; }
+#passwordBarContainer { display: flex; gap: 6px; margin-top: 8px; margin-bottom: 8px; }
+#passwordNote { font-size: 13px; font-weight: bold; min-height: 16px; text-align: right; transition: color 0.3s; }

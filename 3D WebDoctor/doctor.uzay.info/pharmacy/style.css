@@ -1,0 +1,121 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: darkblue;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+.simulator {
+    perspective: 1200px;
+}
+
+.cabinet {
+    width: 500px;
+    height: 150px;
+    depth: 200px;
+    background-color: #3f00ff;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+    transform-style: preserve-3d;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.cabinet::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 150px;
+    background-color: #483d8b;
+    transform: translateZ(-100px);
+    border-radius: 10px;
+}
+
+.cabinet .left {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: #191970;
+    transform: rotateY(-90deg) translateX(-250px);
+    border-radius: 10px;
+    left: 0;
+}
+
+.cabinet .right {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-color: #191970;
+    transform: rotateY(90deg) translateX(250px);
+    border-radius: 10px;
+    right: 0;
+}
+
+.shelf {
+    width: 80px;
+    height: 80px;
+    background-color: #4169e1;
+    border: 2px solid #0047ab;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateZ(10px);
+}
+
+.box-container {
+    display: flex;
+    gap: 50px;
+    margin-top: 20px;
+    font-size: 10.5px;
+    color: darkblue;
+    justify-content: center;
+}
+
+.box {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease;
+    animation: rotate 5s infinite linear;
+}
+
+.box .face {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-color: #4100ff;
+    border: 2px solid #4100ff;
+    border-radius: 4px;
+    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.box .front { transform: translateZ(30px); }
+.box .back { transform: rotateY(180deg) translateZ(30px); }
+.box .right { transform: rotateY(90deg) translateZ(30px); }
+.box .left { transform: rotateY(-90deg) translateZ(30px); }
+.box .top { transform: rotateX(90deg) translateZ(30px); }
+.box .bottom { transform: rotateX(-90deg) translateZ(30px); }
+
+@keyframes rotate {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+}
+
+.dragging { opacity: 0.6; }
+
+.placed {
+    animation: none;
+    transform: rotate(0deg);
+    font-size: 10.5px;
+    color: darkblue;
+}

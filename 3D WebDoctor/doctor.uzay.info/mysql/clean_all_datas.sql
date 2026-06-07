@@ -1,0 +1,4 @@
+TRUNCATE TABLE users;
+TRUNCATE TABLE Ills;
+TRUNCATE TABLE pharmacies;
+TRUNCATE TABLE pharmacist;

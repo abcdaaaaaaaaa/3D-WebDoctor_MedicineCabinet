@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url><loc>https://doctor.uzay.info</loc></url>
+    <url><loc>https://doctor.uzay.info/login</loc></url>
+    <url><loc>https://doctor.uzay.info/register</loc></url>
+    <url><loc>https://doctor.uzay.info/logout</loc></url>
+    <url><loc>https://doctor.uzay.info/resume</loc></url>
+    <url><loc>https://doctor.uzay.info/medicine</loc></url>
+    <url><loc>https://doctor.uzay.info/reset_password</loc></url>
+    <url><loc>https://doctor.uzay.info/terms</loc></url>
+    <url><loc>https://doctor.uzay.info/privacy</loc></url>
+    <url><loc>https://doctor.uzay.info/approval</loc></url>
+    <url><loc>https://doctor.uzay.info/cupboard</loc></url>
+    <url><loc>https://doctor.uzay.info/pharmacist_login</loc></url>
+    <url><loc>https://doctor.uzay.info/pharmacist_register</loc></url>
+    <url><loc>https://doctor.uzay.info/pharmacist_logout</loc></url>
+    <url><loc>https://doctor.uzay.info/pharmacist_reset_password</loc></url>
+    <url><loc>https://doctor.uzay.info/confirmationcode_update</loc></url>
+</urlset>
