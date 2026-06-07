@@ -1,0 +1,72 @@
+RewriteEngine On
+
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301,NE]
+
+ErrorDocument 404 /
+ErrorDocument 403 /
+
+RewriteRule ^login$ login.php [L]
+RewriteRule ^register$ register.php [L]
+RewriteRule ^logout$ logout.php [L]
+RewriteRule ^resume$ resume.php [L]
+RewriteRule ^medicine$ medicine.php [L]
+RewriteRule ^reset_password$ reset_password.php [L]
+RewriteRule ^terms$ terms.php [L]
+RewriteRule ^privacy$ privacy.php [L]
+RewriteRule ^approval$ pharmacy/approval.php [L]
+RewriteRule ^cupboard$ pharmacy/cupboard.php [L]
+RewriteRule ^pharmacist_login$ pharmacy/pharmacist_login.php [L]
+RewriteRule ^pharmacist_register$ pharmacy/pharmacist_register.php [L]
+RewriteRule ^pharmacist_logout$ pharmacy/pharmacist_logout.php [L]
+RewriteRule ^pharmacist_reset_password$ pharmacy/pharmacist_reset_password.php [L]
+RewriteRule ^confirmationcode_update$ pharmacy/confirmationcode_update.php [L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/index\.php [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/login\.php [NC]
+RewriteRule ^login\.php$ /login [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/register\.php [NC]
+RewriteRule ^register\.php$ /register [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/logout\.php [NC]
+RewriteRule ^logout\.php$ /logout [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/resume\.php [NC]
+RewriteRule ^resume\.php$ /resume [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/medicine\.php [NC]
+RewriteRule ^medicine\.php$ /medicine [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/reset_password\.php [NC]
+RewriteRule ^reset_password\.php$ /reset_password [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/terms\.php [NC]
+RewriteRule ^terms\.php$ /terms [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/privacy\.php [NC]
+RewriteRule ^privacy\.php$ /privacy [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/approval\.php [NC]
+RewriteRule ^pharmacy/approval\.php$ /approval [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/cupboard\.php [NC]
+RewriteRule ^pharmacy/cupboard\.php$ /cupboard [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/pharmacist_login\.php [NC]
+RewriteRule ^pharmacy/pharmacist_login\.php$ /pharmacist_login [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/pharmacist_register\.php [NC]
+RewriteRule ^pharmacy/pharmacist_register\.php$ /pharmacist_register [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/pharmacist_logout\.php [NC]
+RewriteRule ^pharmacy/pharmacist_logout\.php$ /pharmacist_logout [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/pharmacist_reset_password\.php [NC]
+RewriteRule ^pharmacy/pharmacist_reset_password\.php$ /pharmacist_reset_password [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/pharmacy/confirmationcode_update\.php [NC]
+RewriteRule ^pharmacy/confirmationcode_update\.php$ /confirmationcode_update [R=301,L]
