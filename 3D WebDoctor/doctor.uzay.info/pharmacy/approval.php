@@ -35,7 +35,7 @@ function getUrgencyText($urgency) {
 function formatIllRow($row, $includeStatus = false) {
     $type_val = mb_strtolower($row['types'] ?? '', 'UTF-8');
     $type_icon = '-';
-    if ($type_val === 'eczane' || $type_val === 'alındı') {
+    if ($type_val === 'eczane' || $type_val === 'alındı' || $type_val === 'alınmadı' || $type_val === 'alınamadı') {
         $type_icon = '🏥';
     } elseif ($type_val === 'ev') {
         $type_icon = '🏠';
