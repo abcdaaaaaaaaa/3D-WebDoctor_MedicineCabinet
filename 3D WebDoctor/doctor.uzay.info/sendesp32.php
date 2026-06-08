@@ -15,6 +15,27 @@ try {
         exit;
     }
 
+    if ($action === 'status') {
+        $ills_id = $_GET['ills_id'] ?? '';
+        $state = $_GET['state'] ?? '';
+        if (!empty($ills_id) && ($state === 'alınmadı' || $state === 'alınamadı')) {
+            $sql_check = "SELECT p.cupboard_code FROM Ills i JOIN pharmacies p ON i.pharmacy = p.name WHERE i.id = :id";
+            $stmt_check = $conn->prepare($sql_check);
+            $stmt_check->execute(['id' => $ills_id]);
+            $row = $stmt_check->fetch(PDO::FETCH_ASSOC);
+
+            if ($row && password_verify($esp32_cupboard, $row['cupboard_code'])) {
+                $update_sql = "UPDATE Ills SET types = :state WHERE id = :id AND types = 'eczane'";
+                $update_stmt = $conn->prepare($update_sql);
+                $update_stmt->execute(['state' => $state, 'id' => $ills_id]);
+                echo "OK";
+            } else {
+                echo "Hata: Yetkisiz işlem veya geçerli kayıt yok!";
+            }
+        }
+        exit;
+    }
+
     if ($action === 'pay') {
         $ills_id = $_GET['ills_id'] ?? '';
         if (!empty($ills_id)) {
@@ -38,7 +59,7 @@ try {
     $sql = "SELECT i.id AS ills_id, i.name, i.surname, i.brand, i.medicine, i.dose, i.daily_amount, i.urgency, p.medicine_order, p.cupboard_code 
             FROM Ills i 
             JOIN pharmacies p ON i.pharmacy = p.name 
-            WHERE i.result = '+' AND i.types = 'eczane' AND i.created_at >= DATE_SUB(NOW(), INTERVAL 20 MINUTE) 
+            WHERE i.result = '+' AND i.types = 'eczane' AND i.created_at >= DATE_SUB(NOW(), INTERVAL 60 MINUTE) 
             ORDER BY i.created_at DESC";
 
     $stmt = $conn->prepare($sql);
@@ -62,6 +83,7 @@ try {
         }
 
         $medicineGenericName = $row['medicine'];
+        $number = '';
 
         foreach ($orderMap as $medName => $num) {
             if (stripos($medicineGenericName, $medName) !== false) {
