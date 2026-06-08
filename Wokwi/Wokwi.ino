@@ -24,6 +24,7 @@ bool waitingForPayment = false;
 String pendingIllsId = "";
 int pendingServoNum = -1;
 unsigned long lastCheckTime = 0;
+unsigned long paymentStartTime = 0;
 
 void setup() {
   Serial.begin(115200);
@@ -61,7 +62,19 @@ void loop() {
       lastCheckTime = millis();
     }
   } else {
-    if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
+    if (millis() - paymentStartTime > 30000) {
+      Serial.println("Süre doldu, kart okutulmadı. İşlem iptal edildi.");
+      if (WiFi.status() == WL_CONNECTED) {
+        HTTPClient httpTime;
+        String urlTime = String(serverUrl) + "?cupboard_code=" + cupboardCode + "&action=status&state=alınmadı&ills_id=" + pendingIllsId;
+        httpTime.begin(urlTime);
+        httpTime.GET();
+        httpTime.end();
+      }
+      waitingForPayment = false;
+      lastData = "";
+      lastCheckTime = millis();
+    } else if (rfid.PICC_IsNewCardPresent() && rfid.PICC_ReadCardSerial()) {
       Serial.println("Kredi kartı okundu, işlem yapılıyor...");
       
       if (WiFi.status() == WL_CONNECTED) {
@@ -80,12 +93,21 @@ void loop() {
               servos[pendingServoNum - 1].write(90);
               delay(1000);
             }
-            waitingForPayment = false;
-            lastData = "";
-            lastCheckTime = millis();
           } else {
             Serial.println("Ödeme başarısız veya sistem hatası!");
+            HTTPClient httpFail;
+            String urlFail = String(serverUrl) + "?cupboard_code=" + cupboardCode + "&action=status&state=alınamadı&ills_id=" + pendingIllsId;
+            httpFail.begin(urlFail);
+            httpFail.GET();
+            httpFail.end();
           }
+        } else {
+          Serial.println("Ödeme başarısız veya sistem hatası!");
+          HTTPClient httpFail;
+          String urlFail = String(serverUrl) + "?cupboard_code=" + cupboardCode + "&action=status&state=alınamadı&ills_id=" + pendingIllsId;
+          httpFail.begin(urlFail);
+          httpFail.GET();
+          httpFail.end();
         }
         http.end();
       }
@@ -93,6 +115,9 @@ void loop() {
       rfid.PICC_HaltA();
       rfid.PCD_StopCrypto1();
       delay(2000);
+      waitingForPayment = false;
+      lastData = "";
+      lastCheckTime = millis();
     }
   }
 }
@@ -151,4 +176,5 @@ void printRecord(String record) {
   pendingServoNum = fields[6].toInt();
   pendingIllsId = fields[7];
   waitingForPayment = true;
+  paymentStartTime = millis();
 }
