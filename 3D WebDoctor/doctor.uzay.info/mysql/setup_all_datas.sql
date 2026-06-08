@@ -31,7 +31,7 @@ CREATE TABLE Ills (
     guidance VARCHAR(200) NOT NULL,
     urgency VARCHAR(1) NOT NULL,
     pharmacy VARCHAR(100) NOT NULL,
-    types VARCHAR(6) NOT NULL,
+    types VARCHAR(9) NOT NULL,
     conclusion_rationale VARCHAR(373) NOT NULL,
     detail_conclusion_rationale VARCHAR(500),
     result VARCHAR(1) NOT NULL,
