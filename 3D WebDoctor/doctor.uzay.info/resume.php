@@ -103,7 +103,7 @@ $stmt->close();
                 $type = mb_strtolower(trim($record['types'] ?? ''));
                 $type_icon = '';
 
-                if ($type === 'eczane' || $type === 'alındı') {$type_icon = '🏥';} elseif ($type === 'ev') {$type_icon = '🏠';}
+                if ($type === 'eczane' || $type === 'alındı' ||  $type === 'alınmadı' || $type === 'alınamadı') {$type_icon = '🏥';} elseif ($type === 'ev') {$type_icon = '🏠';}
             ?>
                 <tr>
                     <td class="cell-id"><?= htmlspecialchars($record['id']) ?></td>
